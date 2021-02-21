@@ -1,0 +1,45 @@
+@font-face {
+    font-family: 'travelers';
+    src: url('travelers.ttf');
+}
+*{
+    margin: 0;
+    padding: 0;
+    font-size: 30px;
+}
+body{
+    background-color: black;
+    line-height: 1.5rem;
+    padding: 5px;
+    color: white;
+    overflow: hidden;
+}
+#letters, #backLetters, #traveler{
+    position: absolute;
+    display: grid;
+    grid-gap: 5px;
+}
+#traveler{
+    font-family: 'Cousine', monospace;
+    font-weight: 600;
+    color: rgb(253, 150, 66);
+    text-shadow: 0 0 10px rgb(160,30,0);
+}
+#letters{
+    font-family: 'travelers';
+    color: rgb(87, 45, 11);
+    z-index: -1;
+}
+#backLetters{
+    font-family: 'travelers';
+    color: rgb(49, 25, 6);
+    z-index: -2;
+}
+.letter1, .letter2, .traveler{
+    width: 1rem;
+    height: 1rem;
+    text-align: center;
+}
+.letter2{
+    text-align: right;
+}
