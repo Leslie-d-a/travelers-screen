@@ -122,17 +122,18 @@ async function displayText(array,yy){
     countLine++
 }
 async function load(){
-    num = Math.floor(Math.random() * 3)
-    y = Math.floor(Math.random() * 5)+10
-    await displayText(row1,y)
-    await displayText(row2,y+1)
-    await displayText(row3,y+2)
-    await displayText(row4,y+3)
-    await displayText(row5,y+4)
-    await displayText(row6,y+5)
-    await displayText(row7,y+6)
-    await sleep(6000)
-    window.location.reload()
+        [...document.getElementById('traveler').children].forEach(child => child.innerHTML = "")
+        num = Math.floor(Math.random() * 3)
+        y = Math.floor(Math.random() * 5)+10
+        await displayText(row1,y)
+        await displayText(row2,y+1)
+        await displayText(row3,y+2)
+        await displayText(row4,y+3)
+        await displayText(row5,y+4)
+        await displayText(row6,y+5)
+        await displayText(row7,y+6)
+        await sleep(6000)
+        load()
 }
 load()
 
