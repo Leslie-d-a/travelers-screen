@@ -13,14 +13,8 @@ function createElement(type, name, appendTo, text, style, id) {
     element.id = id
     document.getElementById(appendTo).appendChild(element)
 }
-while (lettersOne.firstChild) {
-    lettersOne.firstChild.remove();
-}
-while (lettersTwo.firstChild) {
-    lettersTwo.firstChild.remove();
-}
-for (a = 0; a < Math.floor(height / 35); a++) {
-    for (i = 0; i < Math.floor(width / 35); i++) {
+for (a = 0; a < 30; a++) {
+    for (i = 0; i < 55; i++) {
         createElement('div', 'letter1', 'letters', letters[Math.floor(Math.random() * 25)], "grid-area:" + (a + 1) + "/" + (i + 1) + "/" + (a + 2) + "/" + (i + 2) + ";")
         createElement('div', 'letter2', 'backLetters', letters[Math.floor(Math.random() * 25)], "grid-area:" + (a + 1) + "/" + (i + 1) + "/" + (a + 2) + "/" + (i + 2) + ";")
         createElement('div', 'traveler', 'traveler', "" , "grid-area:" + (a + 1) + "/" + (i + 1) + "/" + (a + 2) + "/" + (i + 2) + ";", i.toString()+" "+a.toString())
@@ -45,31 +39,16 @@ var text = [
     ["Traveler 3468","T.E.L.L. coordinates received","","reception confirmed","","Re: reception per","Traveller 0115 confirmed"],
     ["Mission:  FAIL <5001, 5002>","Status:   RETRY <att 3>","TELL rev: E-67.47m","Seq Init: Traveler 5003","","",""],
     ["Mission:  ACTIVE <5008>","Status:   new","TELL:     48.7713N 122.1141W","Seq Init: Traveler 5009","","",""],
-    ["TRAV PROGRAM VER ONE","Status: FAIL","RESET","LOAD SEQ:","TRAV PROGRAM:","VER TWO...... BEGIN",""]
+    ["TRAV PROGRAM VER ONE","Status: FAIL","RESET","LOAD SEQ:","TRAV PROGRAM:","VER TWO...... BEGIN",""],
+    ["coordinates","","confirmed","","","",""]
 ]
-var colorData = ["",
-    [
-        {
-            "line":0,
-            "colorNums":[15,16,17,18,19,20,21,22,23,24,25,26]
-        }
-    ],[
-        {
-            "line":0,
-            "colorNums":[17,18,19,20,21,22]
-        }
-    ],[
-        {
-            "line":1,
-            "colorNums":[8,9,10,11]
-        },{
-            "line":5,
-            "colorNums":[14,15,16,17,18]
-        }
-    ]
+var colorData = [
+    "",
+    [{"line":0,"colorNums":[15,16,17,18,19,20,21,22,23,24,25,26]}],
+    [{"line":0,"colorNums":[17,18,19,20,21,22]}],
+    [{"line":1,"colorNums":[8,9,10,11]},{"line":5,"colorNums":[14,15,16,17,18]}],
+    ""
 ]
-
-
 var colors = ["",
     [
         {
@@ -94,17 +73,17 @@ var colors = ["",
 
 
 async function displayText(){
-    let num = Math.floor(Math.random() * 3)
-    let colorNum=0;
+    let num = Math.floor(Math.random() * (text.length-1))
     let colorLine=0;
     let y = Math.floor(Math.random() * 5)+10
     for (i=0;i<text[num].length;i++,y++){
+        let colorNum=0;
         if (text[num][i] != ""){
             let word = text[num][i].split("")
             if (num == 1 || num == 2 || num == 3){
                 start = 10
             } else {
-                start = Math.floor(Math.random() * Math.floor(width / 35-word.length))
+                start = Math.floor(Math.random() * Math.floor(55-word.length))
             }
             for (a=0;a<word.length;a++){
                 await sleep(letterDelay);
@@ -123,7 +102,9 @@ async function displayText(){
 }
 
 async function load(){
-        [...document.getElementById('traveler').children].forEach(child => child.innerHTML = "")
+        [...document.getElementById('traveler').children].forEach(child => child.style.color = "");
+        [...document.getElementById('traveler').children].forEach(child => child.style.textShadow = "");
+        [...document.getElementById('traveler').children].forEach(child => child.innerHTML = "");
         await displayText()
         await sleep(6000)
         load()
