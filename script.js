@@ -38,19 +38,15 @@ function sleep(ms) {
         resolve => setTimeout(resolve, ms)
     );
 }
-var num;
-var y;
-var start;
-var colorLine=0;
 var countLine=0
 var letterDelay = 50;
-var row1 = ["Traveler 3468","Mission:  FAIL <5001, 5002>","Mission:  ACTIVE <5008>","TRAV PROGRAM VER ONE"]
-var row2 = ["T.E.L.L. coordinates received","Status:   RETRY <att 3>","Status:   new", "Status: FAIL"]
-var row3 = ["","TELL rev: E-67.47m","TELL:     48.7713N 122.1141W","RESET"]
-var row4 = ["reception confirmed","Seq Init: Traveler 5003","Seq Init: Traveler 5009","LOAD SEQ:"]
-var row5 = ["","","","TRAV PROGRAM:"]
-var row6 = ["Re: reception per","","","VER TWO...... BEGIN"]
-var row7 = ["Traveller 0115 confirmed"]
+
+var text = [
+    ["Traveler 3468","T.E.L.L. coordinates received","","reception confirmed","","Re: reception per","Traveller 0115 confirmed"],
+    ["Mission:  FAIL <5001, 5002>","Status:   RETRY <att 3>","TELL rev: E-67.47m","Seq Init: Traveler 5003","","",""],
+    ["Mission:  ACTIVE <5008>","Status:   new","TELL:     48.7713N 122.1141W","Seq Init: Traveler 5009","","",""],
+    ["TRAV PROGRAM VER ONE","Status: FAIL","RESET","LOAD SEQ:","TRAV PROGRAM:","VER TWO...... BEGIN",""]
+]
 var colorData = ["",
     [
         {
@@ -97,41 +93,38 @@ var colors = ["",
 ]
 
 
-async function displayText(array,yy){
-    if (array[num] != undefined){
-        let word = array[num].split("")
-        if (num == 1 || num == 2 || num == 3){
-            start = 10
-        } else {
-            start = Math.floor(Math.random() * Math.floor(width / 35-word.length))
-        }
-        let colorNum=0;
-        for (i=0;i<word.length;i++){
-            await sleep(letterDelay);
-            if (colorData[num][colorLine]!= undefined && colorData[num][colorLine].colorNums[colorNum] == i && colorData[num][colorLine].line == countLine){
-                colorNum++
-                document.getElementById((i+start)+" "+yy.toString()).style.color = colors[num][colorLine].color1
-                document.getElementById((i+start)+" "+yy.toString()).style.textShadow = colors[num][colorLine].color2
+async function displayText(){
+    let num = Math.floor(Math.random() * 3)
+    let colorNum=0;
+    let colorLine=0;
+    let y = Math.floor(Math.random() * 5)+10
+    for (i=0;i<text[num].length;i++,y++){
+        if (text[num][i] != ""){
+            let word = text[num][i].split("")
+            if (num == 1 || num == 2 || num == 3){
+                start = 10
+            } else {
+                start = Math.floor(Math.random() * Math.floor(width / 35-word.length))
             }
-            document.getElementById((i+start)+" "+yy.toString()).innerHTML = word[i]
+            for (a=0;a<word.length;a++){
+                await sleep(letterDelay);
+                if (colorData[num][colorLine]!= undefined && colorData[num][colorLine].colorNums[colorNum] == a && colorData[num][colorLine].line == i){
+                    colorNum++
+                    document.getElementById((a+start)+" "+y.toString()).style.color = colors[num][colorLine].color1
+                    document.getElementById((a+start)+" "+y.toString()).style.textShadow = colors[num][colorLine].color2
+                }
+                document.getElementById((a+start)+" "+y.toString()).innerHTML = word[a]
+            }
+            if (colorData[num][colorLine]!= undefined && colorData[num][colorLine].line == i){
+                colorLine++
+            }
         }
     }
-    if (colorData[num][colorLine]!= undefined && colorData[num][colorLine].line == countLine){
-        colorLine++
-    }
-    countLine++
 }
+
 async function load(){
         [...document.getElementById('traveler').children].forEach(child => child.innerHTML = "")
-        num = Math.floor(Math.random() * 3)
-        y = Math.floor(Math.random() * 5)+10
-        await displayText(row1,y)
-        await displayText(row2,y+1)
-        await displayText(row3,y+2)
-        await displayText(row4,y+3)
-        await displayText(row5,y+4)
-        await displayText(row6,y+5)
-        await displayText(row7,y+6)
+        await displayText()
         await sleep(6000)
         load()
 }
